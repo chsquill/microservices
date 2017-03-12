@@ -1,9 +1,9 @@
 package com.boot.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,42 +13,30 @@ public class AccountsController {
 
 	protected Logger logger = Logger.getLogger(AccountsController.class.getName());
 
+	@Autowired
+	AccountService accountService;
+
 	@RequestMapping("/accounts")
 	public List<Account> all() {
 
 		logger.info("accounts-service all() invoked");
 
-		Account account = new Account();
-		account.setId(1);
-		account.setNumber("123456T");
-		account.setOwner("Chuck");
-
-		Account account2 = new Account();
-		account2.setId(21);
-		account2.setNumber("123456S");
-		account2.setOwner("Sue");
-
-		List<Account> list = new ArrayList<Account>();
-		list.add(account);
-		list.add(account2);
-
-		logger.info("accounts-service all() found");
-
-		return list;
+		return accountService.findAll();
 	}
 
-	@RequestMapping("/accounts/{accountNumber}")
-	public Account byNumber(@PathVariable("accountNumber") String accountNumber) {
+	@RequestMapping("/accounts/number/{accountNumber}")
+	public Account byNumber(@PathVariable("accountNumber") String number) {
 
-		logger.info("accounts-service byNumber() invoked: " + accountNumber);
+		logger.info("accounts-service byNumber() invoked: " + number);
 
-		Account account = new Account();
-		account.setId(1);
-		account.setNumber("123456T");
-		account.setOwner("Chuck");
+		return accountService.findByNumber(number);
+	}
 
-		logger.info("accounts-service byNumber() found: " + account);
+	@RequestMapping("/accounts/id/{id}")
+	public Account byId(@PathVariable("id") long id) {
 
-		return account;
+		logger.info("accounts-service byId() invoked: " + id);
+
+		return accountService.findById(id);
 	}
 }

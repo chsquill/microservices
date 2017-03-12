@@ -1,5 +1,6 @@
 package com.boot.web;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +17,7 @@ public class WebAccountsService {
 	@LoadBalanced
 	protected RestTemplate restTemplate;
 
-	protected String serviceUrl = "http://localhost:8092/api";
+	protected String serviceUrl = "http://MICROSERVICE-API-ACCOUNT-SERVICE";
 
 	protected Logger logger = Logger.getLogger(WebAccountsService.class.getName());
 
@@ -32,20 +33,20 @@ public class WebAccountsService {
 		logger.warning("The RestTemplate request factory is " + restTemplate.getRequestFactory().getClass());
 	}
 
-	// public List<Account> findAll() {
-	// logger.info("findAll() invoked");
-	// return restTemplate.getForObject(serviceUrl + "/accounts}",
-	// List<Account>.class);
-	// }
+	public List<Account> findAll() {
+		logger.info("findAll() invoked");
+		List<Account> accounts = restTemplate.getForObject(serviceUrl + "/accounts", List.class);
+		return accounts;
+	}
 
 	public Account findByNumber(String accountNumber) {
 		logger.info("findByNumber() invoked: for " + accountNumber);
-		return restTemplate.getForObject(serviceUrl + "/accounts/{number}", Account.class, accountNumber);
+		return restTemplate.getForObject(serviceUrl + "/accounts/number/{number}", Account.class, accountNumber);
 	}
 
-	public Account getByNumber(String accountNumber) {
-		logger.info("getByNumber() invoked: for " + accountNumber);
-		Account account = restTemplate.getForObject(serviceUrl + "/accounts/{number}", Account.class, accountNumber);
+	public Account findById(Long accountId) {
+		logger.info("findById() invoked: for " + accountId);
+		Account account = restTemplate.getForObject(serviceUrl + "/accounts/id/{id}", Account.class, accountId);
 		return account;
 	}
 }
