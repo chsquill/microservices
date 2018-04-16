@@ -1,0 +1,6 @@
+include 'microservice-account-service'
+include 'microservice-api-account-service'
+include 'microservice-config-client'
+include 'microservice-config-server'
+include 'microservice-eureka'
+include 'microservice-web-client'
