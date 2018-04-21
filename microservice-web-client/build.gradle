@@ -19,6 +19,14 @@ jar {
 	version = '0.0.1-SNAPSHOT'
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "src/main/webapp"
+        }
+    }
+}
+
 sourceCompatibility = 1.8
 
 repositories {
